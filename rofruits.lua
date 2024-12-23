@@ -1,11 +1,11 @@
-local ui_lib = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
+local cdark_ui = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 
-local window = ui_lib:CreateWindow({
+local main_window = cdark_ui:CreateWindow({
 	Name = "RoFruits",
 	Icon = 0,
-	LoadingTitle = "RoFruits",
-	LoadingSubtitle = "by Celestial - Lanna",
-	Theme = "Default",
+	LoadingTitle = "RoFruits v1",
+	LoadingSubtitle = "By Celestial - Lanna",
+	Theme = "AmberGlow",
 	
 	DisableRayfieldPrompts = false,
 	DisableBuildWarnings = false,
@@ -24,90 +24,95 @@ local window = ui_lib:CreateWindow({
 	
 	KeySystem = true,
 	KeySettings = {
-		Title = "RoFruits",
+		Title = "RoFruits - Key",
 		Subtitle = "Key System",
-		Note = "Le script est en beta, tout bugs peut donc apparaitre",
-		FileName = "RoFruits_Key",
-		SaveKey = true,
+		Note = "tips: la clef est test :)",
+		FileName = "CDark_Key",
+		SaveKey = false,
 		GrabKeyFromSite = false,
 		Key = {"test"}
 	}
 })
 
-local fruits_tab = window:CreateTab("Fruits")
-local test_tab = window:CreateTab("Test")
-local fruits_sec = fruits_tab:CreateSection("Test")
+local test_tab = main_window:CreateTab("Onglet TEST")
+local test_section = test_tab:CreateSection("Section TEST")
+local test_divider = test_tab:CreateDivider(true)
 
-local fruits_but = fruits_tab:CreateButton({
-	Name = "X-R4Y",
+local test_button = test_tab:CreateButton({
+	Name = "test",
 	Callback = function()
-		ui_lib:Notify({
-			Title = "X-RAY Activé",
-			Content = "Le X-RAY a était activé!",
-			Duration = 6.5,
-			Image = "rewind",
-		})
+		
 	end,
 })
 
-local fruits_tog = fruits_tab:CreateToggle({
-	Name = "Auto Stock",
-	Color = Color3.fromRGB(255, 255, 0),
-	Flag = "AutoStock_Flag",
+local test_toggle = test_tab:CreateToggle({
+	Name = "test",
+	CurrentValue = false,
+	Flag = "test_flag",
 	Callback = function(value)
 		
 	end,
 })
 
-local fruits_sli = fruits_tab:CreateSlider({
-	Name = "Distance Fruits",
+local test_color = test_tab:CreateColorPicker({
+	Name = "Selectioneur de couleur",
+	Color = Color3.fromRGB(255, 255, 255),
+	Flag = "color_flag",
+	Callback = function(value)
+		
+	end,
+})
+
+local test_slider = test_tab:CreateSlider({
+	Name = "test",
 	Range = {0, 5000},
 	Increment = 100,
-	Suffix = "Distance des fruits",
-	Flag = "FruitsDistance_Flag",
-	Calllback = function(value)
-		
-	end,
-})
-
-local fruits_col = test_tab:CreateColorPicker({
-	Name = "Fruits Colors",
-	Color = Color3.fromRGB(255, 255, 0),
-	Flag = "FruitsColors_Flag",
+	Suffix = "test",
+	CurrentValue = 0,
+	Flag = "slider_flag",
 	Callback = function(value)
 		
 	end,
 })
 
-local fruits_int = test_tab:CreateInput({
-	Name = "Nom de fruit",
+local test_input = test_tab:CreateInput({
+	Name = "test",
 	CurrentValue = "",
-	Placeholdertext = "Nom de fruits",
+	Placeholdertext = "test",
 	RemoveTextAfterFocusLost = false,
-	Flag = "FruitsName_Flag",
+	Flag = "test_input",
 	Callback = function(text)
 		
 	end,
 })
 
-local fruits_dro = test_tab:CreateDropdown({
-	Name = "Fruits",
+local test_dropdown = test_tab:CreateDropdown({
+	Name = "test",
 	Options = {"Light", "Gas", "Smoke"},
 	CurrentOption = {"Light"},
 	MultipleOptions = false,
-	Flag = "FruitsDropdown_Flag",
+	Flag = "test_dropdown",
 	Callback = function(options)
 		
 	end,
 })
 
-local themes_ = test_tab:CreateDropdown({
-	Name = "Thèmes",
-	Options = {"Default", "AmberGlow", "Amethyst", "Bloom", "DarkBlue", "Green", "Light", "Ocean", "Serenity"},
+local theme_dropdown = test_tab:CreateDropdown({
+	Name = "themes",
+	Options = {"Default ", "AmberGlow", "Amethyst", "Bloom", "DarkBlue", "Green", "Light", "Ocean", "Serenity"},
 	CurrentOption = {"Light"},
 	MultipleOptions = false,
-	Flag = "FruitsDropdown_Flag",
+	Flag = "test_dropdown",
 	Callback = function(options)
+		for i, v in pairs(options) do
+			option = v
+		end
 
+		print(options)
+		print(option)
+		
+		main_window.ModifyTheme(options[option])
 	end,
 })
+
+cdark_ui:LoadConfiguration()
