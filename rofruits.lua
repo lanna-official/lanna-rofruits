@@ -22,7 +22,7 @@ local window = ui_lib:CreateWindow({
 		RememberJoins = true
 	},
 	
-	KeySystem = false,
+	KeySystem = true,
 	KeySettings = {
 		Title = "RoFruits",
 		Subtitle = "Key System",
@@ -30,11 +30,12 @@ local window = ui_lib:CreateWindow({
 		FileName = "RoFruits_Key",
 		SaveKey = true,
 		GrabKeyFromSite = false,
-		Key = {"test_key"}
+		Key = {"test"}
 	}
 })
 
 local fruits_tab = window:CreateTab("Fruits")
+local test_tab = window:CreateTab("Test")
 local fruits_sec = fruits_tab:CreateSection("Test")
 
 local fruits_but = fruits_tab:CreateButton({
@@ -69,7 +70,7 @@ local fruits_sli = fruits_tab:CreateSlider({
 	end,
 })
 
-local fruits_col = fruits_tab:CreateColorPicker({
+local fruits_col = test_tab:CreateColorPicker({
 	Name = "Fruits Colors",
 	Color = Color3.fromRGB(255, 255, 0),
 	Flag = "FruitsColors_Flag",
@@ -78,7 +79,7 @@ local fruits_col = fruits_tab:CreateColorPicker({
 	end,
 })
 
-local fruits_int = fruits_tab:CreateInput({
+local fruits_int = test_tab:CreateInput({
 	Name = "Nom de fruit",
 	CurrentValue = "",
 	Placeholdertext = "Nom de fruits",
@@ -89,7 +90,7 @@ local fruits_int = fruits_tab:CreateInput({
 	end,
 })
 
-local fruits_dro = fruits_tab:CreateDropdown({
+local fruits_dro = test_tab:CreateDropdown({
 	Name = "Fruits",
 	Options = {"Light", "Gas", "Smoke"},
 	CurrentOption = {"Light"},
@@ -100,7 +101,7 @@ local fruits_dro = fruits_tab:CreateDropdown({
 	end,
 })
 
-local themes_ = fruits_tab:CreateDropdown({
+local themes_ = test_tab:CreateDropdown({
 	Name = "Thèmes",
 	Options = {"Default", "AmberGlow", "Amethyst", "Bloom", "DarkBlue", "Green", "Light", "Ocean", "Serenity"},
 	CurrentOption = {"Light"},
