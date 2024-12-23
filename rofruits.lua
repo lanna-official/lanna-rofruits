@@ -5,7 +5,7 @@ local window = ui_lib:CreateWindow({
 	Icon = 0,
 	LoadingTitle = "RoFruits",
 	LoadingSubtitle = "by Celestial - Lanna",
-	Theme = "Ocean",
+	Theme = "Default",
 	
 	DisableRayfieldPrompts = false,
 	DisableBuildWarnings = false,
@@ -97,5 +97,16 @@ local fruits_dro = fruits_tab:CreateDropdown({
 	Flag = "FruitsDropdown_Flag",
 	Callback = function(options)
 		
+	end,
+})
+
+local themes_ = fruits_tab:CreateDropdown({
+	Name = "Thèmes",
+	Options = {"Default", "AmberGlow", "Amethyst", "Bloom", "DarkBlue", "Green", "Light", "Ocean", "Serenity"},
+	CurrentOption = {"Light"},
+	MultipleOptions = false,
+	Flag = "FruitsDropdown_Flag",
+	Callback = function(options)
+
 	end,
 })
