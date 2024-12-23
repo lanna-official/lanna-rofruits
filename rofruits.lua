@@ -77,8 +77,8 @@ local test_slider = test_tab:CreateSlider({
 
 local test_input = test_tab:CreateInput({
 	Name = "test",
-	CurrentValue = "test",
-	PlaceholdeText = "test",
+	CurrentValue = "",
+	PlaceholderText = "test",
 	RemoveTextAfterFocusLost = false,
 	Flag = "test_input",
 	Callback = function(text)
