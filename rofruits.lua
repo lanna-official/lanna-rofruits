@@ -5,7 +5,7 @@ local window = ui_lib:CreateWindow({
 	Icon = 0,
 	LoadingTitle = "RoFruits",
 	LoadingSubtitle = "by Celestial - Lanna",
-	Theme = "Default",
+	Theme = "AmberGlow",
 	
 	DisableRayfieldPrompts = false,
 	DisableBuildWarnings = false,
