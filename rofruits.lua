@@ -34,5 +34,17 @@ local window = ui_lib:CreateWindow({
 	}
 })
 
-local fruits_tab = window:CreateTab("Fruits", 0)
+local fruits_tab = window:CreateTab("Fruits")
 local fruits_sec = fruits_tab:CreateSection("Test")
+
+local fruits_but = fruits_tab:CreateButton({
+	Name = "X-RAY",
+	Callback = function()
+		ui_lib:Notify({
+			Title = "X-RAY Activé",
+			Content = "Le X-RAY a était activer!",
+			Duration = 6.5,
+			Image = "rewind",
+		})
+	end,
+})
