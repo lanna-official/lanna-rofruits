@@ -11,7 +11,7 @@ local window = ui_lib:CreateWindow({
 	DisableBuildWarnings = false,
 	
 	ConfigurationSaving = {
-		Enabled = true,
+		Enabled = false,
 		FolderName = nil,
 		FileName = "RoFruits"
 	},
