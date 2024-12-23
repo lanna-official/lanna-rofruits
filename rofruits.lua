@@ -38,7 +38,7 @@ local fruits_tab = window:CreateTab("Fruits")
 local fruits_sec = fruits_tab:CreateSection("Test")
 
 local fruits_but = fruits_tab:CreateButton({
-	Name = "X-RAY",
+	Name = "X-R4Y",
 	Callback = function()
 		ui_lib:Notify({
 			Title = "X-RAY Activé",
