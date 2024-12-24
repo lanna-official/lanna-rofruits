@@ -1,19 +1,16 @@
-local cdark_ui = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
+getgenv().SecureMode = true
 
-local main_window = cdark_ui:CreateWindow({
-	Name = "RoFruits",
-	Icon = 0,
-	LoadingTitle = "RoFruits v1",
+local ArrayField = loadstring(game:HttpGet("https://raw.githubusercontent.com/UI-Interface/ArrayField/main/Source.lua"))()
+
+local Window = ArrayField:CreateWindow({
+	Name = "RoFruits V1",
+	LoadingTitle = "CDark Interface",
 	LoadingSubtitle = "By Celestial - Lanna",
-	Theme = "AmberGlow",
-	
-	DisableRayfieldPrompts = false,
-	DisableBuildWarnings = false,
 	
 	ConfigurationSaving = {
 		Enabled = false,
 		FolderName = nil,
-		FileName = "RoFruits"
+		FileName = "CDark"
 	},
 	
 	Discord = {
@@ -22,97 +19,104 @@ local main_window = cdark_ui:CreateWindow({
 		RememberJoins = true
 	},
 	
-	KeySystem = true,
+	KeySystem = false,
 	KeySettings = {
-		Title = "RoFruits - Key",
+		Title = "RoFruits",
 		Subtitle = "Key System",
-		Note = "tips: la clef est test :)",
-		FileName = "CDark_Key",
+		Note = "ERROR: No methods of obtaining the key is provided.",
+		FileName = "CDark",
 		SaveKey = false,
 		GrabKeyFromSite = false,
-		Key = {"test"}
+		Actions = {
+			[1] = {
+				Text = "Appuyer ici pour copier le lien <--",
+				OnPress = function()
+					print("key: test")
+				end,
+			}
+		}
+	},
+	
+	Key = {"test"}
+})
+
+Window:Prompt({
+	Title = "RoFruits",
+	Subtitle = "...",
+	Content = "...",
+	Actions = {
+		Accept = {
+			Name = "Accepter",
+			Callback = function()
+				
+			end,
+		}
 	}
 })
 
-local test_tab = main_window:CreateTab("Onglet TEST")
-local test_section = test_tab:CreateSection("Section TEST")
-local test_divider = test_tab:CreateDivider(true)
+local Tab = Window:CreateTab("Example Tab", 4483362458)
 
-local test_button = test_tab:CreateButton({
-	Name = "test",
+local Button = Tab:CreateButton({
+	Name = "X-RAY",
+	Interact = "Click",
+	Callback = function()
+		ArrayField:Notify({
+			Title = "X-RAY Activé",
+			Content = "Le X-RAY a était activé!",
+			Duration = 6.5,
+			Image = 4483362458,
+			Actions = {
+				Name = "Okay!",
+				Callback = function()
+					
+				end,
+			},
+		})
+	end,
+})
+
+local Toggle = Tab:CreateToggle({
+	Name = "X-RAY",
+	CurrentValue = false,
+	Flag = "Toggle1",
 	Callback = function()
 		
 	end,
 })
 
-local test_toggle = test_tab:CreateToggle({
-	Name = "test",
-	CurrentValue = false,
-	Flag = "test_flag",
-	Callback = function(value)
-		
-	end,
-})
-
-local test_color = test_tab:CreateColorPicker({
-	Name = "Selectioneur de couleur",
-	Color = Color3.fromRGB(255, 255, 255),
-	Flag = "color_flag",
-	Callback = function(value)
-		
-	end,
-})
-
-local test_slider = test_tab:CreateSlider({
-	Name = "test",
+local Slider = Tab:CreateSlider({
+	Name = "Distance des fruits",
 	Range = {0, 5000},
 	Increment = 100,
-	Suffix = "mètres",
+	Suffix = "Mètres",
 	CurrentValue = 0,
-	Flag = "slider_flag",
-	Callback = function(value)
+	Flag = "Slider1",
+	Callback = function()
 		
 	end,
 })
 
-local test_input = test_tab:CreateInput({
-	Name = "test",
-	CurrentValue = "",
-	PlaceholderText = "test",
+local Input = Tab:CreateInput({
+	Name = "Test",
+	PlaceholderText = "Test",
+	NumbersOnly = false,
+	CharacterLimit = 15,
+	OnEnter = false,
 	RemoveTextAfterFocusLost = false,
-	Flag = "test_input",
 	Callback = function(text)
 		
 	end,
 })
 
-local test_dropdown = test_tab:CreateDropdown({
-	Name = "test",
+local Dropdown = Tab:CreateDropdown({
+	Name = "Fruits",
 	Options = {"Light", "Gas", "Smoke"},
-	CurrentOption = {"Light"},
-	MultipleOptions = false,
-	Flag = "test_dropdown",
-	Callback = function(options)
+	CurrentOption = "Light",
+	MultiSelection = false,
+	Flag = "Dropdown1",
+	Callback = function(option)
 		
 	end,
 })
 
-local theme_dropdown = test_tab:CreateDropdown({
-	Name = "themes",
-	Options = {"Default ", "AmberGlow", "Amethyst", "Bloom", "DarkBlue", "Green", "Light", "Ocean", "Serenity"},
-	CurrentOption = {"Light"},
-	MultipleOptions = false,
-	Flag = "test_dropdown",
-	Callback = function(options)
-		for i, v in pairs(options) do
-			option = v
-		end
-
-		print(options)
-		print(option)
-		
-		main_window.ModifyTheme(options[option])
-	end,
-})
-
-cdark_ui:LoadConfiguration()
+ArrayField:LoadConfiguration()
