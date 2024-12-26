@@ -21,7 +21,7 @@ local window = ui:CreateWindow({
 	},
 
 	Discord = {
-		Enabled = true,
+		Enabled = false,
 		Invite = "",
 		RememberJoins = false
 	},
@@ -128,11 +128,11 @@ local obv2_delete = function(player)
 end
 
 local main_section_obv2 = main_tab:CreateToggle({
-	name = "Observation v2",
-	current_value = false,
-	flag = "main_obv2_toggle",
+	Name = "Observation v2",
+	CurrentValue = false,
+	Flag = "main_obv2_toggle",
 
-	callback = function(value)
+	Callback = function(value)
 		ui:Notify({
 			Title = "Observation v2",
 			Content = value and "L'observation v2 a été activée" or "L'observation v2 a été désactivée",
