@@ -1,122 +1,93 @@
 getgenv().SecureMode = true
 
-local ArrayField = loadstring(game:HttpGet("https://raw.githubusercontent.com/UI-Interface/ArrayField/main/Source.lua"))()
+ui = loadstring(game:HttpGet("https://raw.githubusercontent.com/UI-Interface/ArrayField/main/Source.lua"))()
+sense = loadstring(game:HttpGet("https://sirius.menu/sense"))()
 
-local Window = ArrayField:CreateWindow({
-	Name = "RoFruits V1",
-	LoadingTitle = "CDark Interface",
-	LoadingSubtitle = "By Celestial - Lanna",
+window = ui:CreateWindow({
+	Name = "CDark",
+	LoadingTitle = "CDark Hub",
+	LoadingSubtitle = "by Celestial",
 	
 	ConfigurationSaving = {
-		Enabled = false,
-		FolderName = nil,
-		FileName = "CDark"
+		Enabled = true,
+		FolderName = "cdark",
+		FileName = "cdark.save"
 	},
 	
 	Discord = {
-		Enabled = false,
+		Enabled = true,
 		Invite = "",
-		RememberJoins = true
+		RememberJoins = false
 	},
 	
-	KeySystem = false,
+	KeySystem = true,
 	KeySettings = {
-		Title = "RoFruits",
+		Title = "CDark",
 		Subtitle = "Key System",
-		Note = "ERROR: No methods of obtaining the key is provided.",
-		FileName = "CDark",
+		Note = "...",
+		FileName = "cdark.key",
 		SaveKey = false,
 		GrabKeyFromSite = false,
+		
 		Actions = {
 			[1] = {
-				Text = "Appuyer ici pour copier le lien <--",
+				Text = "Clique ici pour copier la clef <--",
+
 				OnPress = function()
-					print("key: test")
+					window:Prompt({
+						Title = "CDark",
+						Subtitle = "Key System",
+						Content = "La clef a était copier avec succèss!",
+						
+						Actions = {
+							Accept = {
+								Name = "D'accord!",
+								Callback = function()
+									-- ...
+								end,
+							}
+						}
+					})
 				end,
 			}
-		}
-	},
-	
-	Key = {"test"}
-})
-
-Window:Prompt({
-	Title = "RoFruits",
-	Subtitle = "...",
-	Content = "...",
-	Actions = {
-		Accept = {
-			Name = "Accepter",
-			Callback = function()
-				
-			end,
-		}
+		},
+		
+		Key = "admin"
 	}
 })
 
-local Tab = Window:CreateTab("Example Tab", 4483362458)
+local main_tab = window:CreateTab("Main")
+local main_section = main_tab:CreateSection("Main")
 
-local Button = Tab:CreateButton({
-	Name = "X-RAY",
-	Interact = "Click",
-	Callback = function()
-		ArrayField:Notify({
-			Title = "X-RAY Activé",
-			Content = "Le X-RAY a était activé!",
-			Duration = 6.5,
-			Image = 4483362458,
-			Actions = {
-				Name = "Okay!",
-				Callback = function()
-					
-				end,
-			},
-		})
-	end,
-})
-
-local Toggle = Tab:CreateToggle({
-	Name = "X-RAY",
+local main_section_obv2 = main_tab:CreateToggle({
+	Name = "Observation v2",
 	CurrentValue = false,
-	Flag = "Toggle1",
-	Callback = function()
+	Flag = "main_obv2_toggle", -- tab/section _ element
+	
+	Callback = function(value)
+		ui:Notify({
+			Title = "Observation v2",
+			Content = "L'observation v2 a était activé",
+			Duration = 5,
+			Image = 0,
+			
+			Actions = {
+				Ignore = {
+					Name = "Okay!",
+					
+					Callback = function()
+						-- ...
+					end,
+				}
+			}
+		})
 		
+		sense.teamSettings.enemy.enabled = true
+		sense.teamSettings.enemy.box = true
+		sense.teamSettings.boxColor[1] = Color3.fromRGB(252, 165, 255)
+		
+		sense.Load()
 	end,
 })
 
-local Slider = Tab:CreateSlider({
-	Name = "Distance des fruits",
-	Range = {0, 5000},
-	Increment = 100,
-	Suffix = "Mètres",
-	CurrentValue = 0,
-	Flag = "Slider1",
-	Callback = function()
-		
-	end,
-})
-
-local Input = Tab:CreateInput({
-	Name = "Test",
-	PlaceholderText = "Test",
-	NumbersOnly = false,
-	CharacterLimit = 15,
-	OnEnter = false,
-	RemoveTextAfterFocusLost = false,
-	Callback = function(text)
-		
-	end,
-})
-
-local Dropdown = Tab:CreateDropdown({
-	Name = "Fruits",
-	Options = {"Light", "Gas", "Smoke"},
-	CurrentOption = "Light",
-	MultiSelection = false,
-	Flag = "Dropdown1",
-	Callback = function(option)
-		
-	end,
-})
-
-ArrayField:LoadConfiguration()
+ui:LoadConfiguration()
