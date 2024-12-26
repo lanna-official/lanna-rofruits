@@ -42,29 +42,10 @@ local window = ui:CreateWindow({
 local main_tab = window:CreateTab("Main", "home")
 local main_section = main_tab:CreateSection("Main")
 
--- Raycasting function to check if the ESP is visible through walls
-local function isVisible(player)
-    local character = player.Character
-    local camera = workspace.CurrentCamera
-    local head = character:FindFirstChild("Head")
-
-    if head then
-        local ray = Ray.new(camera.CFrame.p, head.Position - camera.CFrame.p)
-        local hitPart, hitPosition = workspace:FindPartOnRay(ray, character)
-
-        -- If the ray hits something that isn't the player, return false
-        if hitPart and hitPart.Parent ~= character then
-            return false
-        end
-    end
-    return true
-end
-
--- Create ESP with health bar
+-- Create ESP for each player
 local obv2_create = function(player)
     if player ~= players.LocalPlayer and player.Character then
         local character = player.Character
-
         if not character:FindFirstChild("Humanoid") then
             player.CharacterAdded:Wait()
             character = player.Character
@@ -204,7 +185,26 @@ local main_section_obv2 = main_tab:CreateToggle({
     end
 })
 
--- Continuously update ESP visibility based on raycast
+-- Function to check visibility using raycasting
+local function isVisible(player)
+    local character = player.Character
+    local head = character:FindFirstChild("Head")
+    if not head then return false end
+
+    -- Raycast from the camera to the player's head
+    local camera = workspace.CurrentCamera
+    local ray = Ray.new(camera.CFrame.p, head.Position - camera.CFrame.p)
+    local hitPart, hitPosition = workspace:FindPartOnRay(ray, character)
+    
+    -- If the ray hits an object other than the player's character, it's not visible
+    if hitPart and hitPart.Parent ~= character then
+        return false
+    end
+
+    return true
+end
+
+-- Continuously check visibility for each player
 run_service.RenderStepped:Connect(function()
     for _, player in pairs(players:GetPlayers()) do
         if obv2_objects[player] then
@@ -217,6 +217,6 @@ run_service.RenderStepped:Connect(function()
             end
         end
     end
-})
+end)
 
 ui:LoadConfiguration()
