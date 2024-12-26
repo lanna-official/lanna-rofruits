@@ -44,17 +44,18 @@ local main_section = main_tab:CreateSection("Main")
 local obv2_create = function(player)
 	if player ~= players.LocalPlayer and player.Character then
 		local character = player.Character
-
-		if not character:FindFirstChild("Humanoid") then
+		if not character or not character:FindFirstChild("Humanoid") then
 			player.CharacterAdded:Wait()
 			character = player.Character
 		end
 
 		local humanoid = character:FindFirstChild("Humanoid")
 		if humanoid then
+			print("Creating health bar for: " .. player.Name)
+
+			-- Highlight and health bar setup
 			local highlight = Instance.new("Highlight")
 			highlight.Adornee = character
-			highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
 			highlight.FillTransparency = 0.5
 			highlight.FillColor = Color3.new(1, 0.4, 0.7)
 			highlight.OutlineTransparency = 0
@@ -62,14 +63,20 @@ local obv2_create = function(player)
 			highlight.Parent = character
 
 			local billboard = Instance.new("BillboardGui")
-			billboard.Adornee = character:FindFirstChild("Head")
+			local head = character:FindFirstChild("Head")
+			if head then
+				billboard.Adornee = head
+			else
+				warn("No head found for player: " .. player.Name)
+				return
+			end
 			billboard.Size = UDim2.new(0, 200, 0, 100)
 			billboard.StudsOffset = Vector3.new(0, 3, 0)
 			billboard.AlwaysOnTop = true
 
 			local name_label = Instance.new("TextLabel")
 			name_label.Size = UDim2.new(1, 0, 0.5, 0)
-			name_label.BackgroundTransparency = 1
+			name_label.BackgroundTransparency = 0
 			name_label.Text = player.Name
 			name_label.TextColor3 = Color3.new(1, 1, 1)
 			name_label.TextStrokeTransparency = 0.5
@@ -93,7 +100,6 @@ local obv2_create = function(player)
 				if character and humanoid then
 					local health_percent = humanoid.Health / humanoid.MaxHealth
 					health_bar.Size = UDim2.new(health_percent, 0, 1, 0)
-
 					if health_percent > 0.75 then
 						health_bar.BackgroundColor3 = Color3.new(0, 1, 0)
 					elseif health_percent > 0.5 then
@@ -107,7 +113,6 @@ local obv2_create = function(player)
 			end
 
 			update_health()
-
 			humanoid.HealthChanged:Connect(update_health)
 			run_service.Heartbeat:Connect(update_health)
 			obv2_objects[player] = {highlight = highlight, billboard = billboard}
