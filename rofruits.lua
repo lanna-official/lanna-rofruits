@@ -41,19 +41,19 @@ local window = ui:CreateWindow({
 local main_tab = window:CreateTab("Main", "home")
 local main_section = main_tab:CreateSection("Main")
 
+-- Create ESP with health bar
 local obv2_create = function(player)
 	if player ~= players.LocalPlayer and player.Character then
 		local character = player.Character
-		if not character or not character:FindFirstChild("Humanoid") then
+
+		if not character:FindFirstChild("Humanoid") then
 			player.CharacterAdded:Wait()
 			character = player.Character
 		end
 
 		local humanoid = character:FindFirstChild("Humanoid")
 		if humanoid then
-			print("Creating health bar for: " .. player.Name)
-
-			-- Highlight and health bar setup
+			-- Create Highlight for ESP
 			local highlight = Instance.new("Highlight")
 			highlight.Adornee = character
 			highlight.FillTransparency = 0.5
@@ -62,6 +62,7 @@ local obv2_create = function(player)
 			highlight.OutlineColor = Color3.new(1, 1, 1)
 			highlight.Parent = character
 
+			-- Create BillboardGui for Name and Health Bar
 			local billboard = Instance.new("BillboardGui")
 			local head = character:FindFirstChild("Head")
 			if head then
@@ -74,6 +75,7 @@ local obv2_create = function(player)
 			billboard.StudsOffset = Vector3.new(0, 3, 0)
 			billboard.AlwaysOnTop = true
 
+			-- Name Label
 			local name_label = Instance.new("TextLabel")
 			name_label.Size = UDim2.new(1, 0, 0.5, 0)
 			name_label.BackgroundTransparency = 0
@@ -83,6 +85,7 @@ local obv2_create = function(player)
 			name_label.TextScaled = true
 			name_label.Parent = billboard
 
+			-- Health Bar Background
 			local health_bar_bg = Instance.new("Frame")
 			health_bar_bg.Size = UDim2.new(1, 0, 0.2, 0)
 			health_bar_bg.Position = UDim2.new(0, 0, 0.6, 0)
@@ -90,16 +93,19 @@ local obv2_create = function(player)
 			health_bar_bg.BorderSizePixel = 0
 			health_bar_bg.Parent = billboard
 
+			-- Health Bar
 			local health_bar = Instance.new("Frame")
 			health_bar.Size = UDim2.new(1, 0, 1, 0)
 			health_bar.Position = UDim2.new(0, 0, 0, 0)
 			health_bar.BorderSizePixel = 0
 			health_bar.Parent = health_bar_bg
 
+			-- Update health bar based on health
 			local update_health = function()
 				if character and humanoid then
 					local health_percent = humanoid.Health / humanoid.MaxHealth
 					health_bar.Size = UDim2.new(health_percent, 0, 1, 0)
+
 					if health_percent > 0.75 then
 						health_bar.BackgroundColor3 = Color3.new(0, 1, 0)
 					elseif health_percent > 0.5 then
@@ -112,14 +118,20 @@ local obv2_create = function(player)
 				end
 			end
 
+			-- Update health continuously
 			update_health()
+
+			-- Reconnect the health update function when health changes
 			humanoid.HealthChanged:Connect(update_health)
 			run_service.Heartbeat:Connect(update_health)
+
+			-- Store ESP objects
 			obv2_objects[player] = {highlight = highlight, billboard = billboard}
 		end
 	end
 end
 
+-- Remove ESP and health bar when player leaves or dies
 local obv2_delete = function(player)
 	if obv2_objects[player] then
 		if obv2_objects[player].highlight then
@@ -132,6 +144,7 @@ local obv2_delete = function(player)
 	end
 end
 
+-- Main Toggle for ESP
 local main_section_obv2 = main_tab:CreateToggle({
 	Name = "Observation v2",
 	CurrentValue = false,
@@ -146,15 +159,18 @@ local main_section_obv2 = main_tab:CreateToggle({
 		})
 
 		if value then
+			-- Create ESP for all players
 			for _, player in pairs(players:GetPlayers()) do
 				obv2_create(player)
 			end
 
+			-- Reconnect ESP for new players
 			players.PlayerAdded:Connect(obv2_create)
 			players.PlayerRemoving:Connect(function(player)
 				obv2_delete(player)
 			end)
 		else
+			-- Delete ESP when disabled
 			for _, obj in pairs(obv2_objects) do
 				if obj.highlight then
 					obj.highlight:Destroy()
