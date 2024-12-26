@@ -5,157 +5,187 @@ local ui = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
 local obv2_objects = {}
 
 local window = ui:CreateWindow({
-	name = "CDark",
-	icon = 0,
-	loading_title = "CDark Hub",
-	loading_subtitle = "by Celestial",
-	theme = "Amethyst",
+    Name = "CDark",
+    Icon = 0,
+    LoadingTitle = "CDark Hub",
+    LoadingSubtitles = "by Celestial",
+    Theme = "Amethyst",
 
-	disable_rayfield_prompts = false,
-	disable_build_warnings = false,
+    DisableRayfieldPrompts = false,
+    DisableBuildWarnings = false,
 
-	configuration_saving = {
-		enabled = true,
-		folder_name = "cdark",
-		file_name = "cdark.save"
-	},
+    ConfigurationSaving = {
+        Enabled = true,
+        FolderName = "cdark",
+        FileName = "cdark.save"
+    },
 
-	discord = {
-		enabled = true,
-		invite = "",
-		remember_joins = false
-	},
+    Discord = {
+        Enabled = true,
+        Invite = "",
+        RememberJoins = false
+    },
 
-	key_system = true,
-	key_settings = {
-		title = "CDark",
-		subtitle = "Key System",
-		note = "...",
-		file_name = "cdark.key",
-		save_key = false,
-		grab_key_from_site = false,
-		key = {"admin"}
-	}
+    KeySystem = true,
+    KeySettings = {
+        Title = "CDark",
+        Subtitle = "Key System",
+        Note = "...",
+        FileName = "cdark.key",
+        SaveKey = false,
+        GrabKeyFromSite = false,
+        Key = {"admin"}
+    }
 })
 
 local main_tab = window:CreateTab("Main", "home")
 local main_section = main_tab:CreateSection("Main")
 
 local obv2_create = function(player)
-	if (player ~= players.LocalPlayer and player.Character) then
-		local character = player.Character
-		local highlight = Instance.new("Highlight")
-		highlight.Adornee = character
-		highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
-		highlight.FillTransparency = 0.5
-		highlight.FillColor = Color3.new(1, 0.4, 0.7)
-		highlight.OutlineTransparency = 0
-		highlight.OutlineColor = Color3.new(1, 1, 1)
-		highlight.Parent = character
+    local success, err = pcall(function()
+        if player ~= players.LocalPlayer and player.Character then
+            local character = player.Character
 
-		local billboard = Instance.new("BillboardGui")
-		billboard.Adornee = character:FindFirstChild("Head")
-		billboard.Size = UDim2.new(0, 200, 0, 100)
-		billboard.StudsOffset = Vector3.new(0, 3, 0)
-		billboard.AlwaysOnTop = true
+            if not character:FindFirstChild("Humanoid") then
+                player.CharacterAdded:Wait()
+                character = player.Character
+            end
 
-		local name_label = Instance.new("TextLabel")
-		name_label.Size = UDim2.new(1, 0, 0.5, 0)
-		name_label.BackgroundTransparency = 1
-		name_label.Text = player.Name
-		name_label.TextColor3 = Color3.new(1, 1, 1)
-		name_label.TextStrokeTransparency = 0.5
-		name_label.TextScaled = true
-		name_label.Parent = billboard
+            local humanoid = character:FindFirstChild("Humanoid")
+            if humanoid then
+                local highlight = Instance.new("Highlight")
+                highlight.Adornee = character
+                highlight.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+                highlight.FillTransparency = 0.5
+                highlight.FillColor = Color3.new(1, 0.4, 0.7)
+                highlight.OutlineTransparency = 0
+                highlight.OutlineColor = Color3.new(1, 1, 1)
+                highlight.Parent = character
 
-		local health_bar_bg = Instance.new("Frame")
-		health_bar_bg.Size = UDim2.new(1, 0, 0.2, 0)
-		health_bar_bg.Position = UDim2.new(0, 0, 0.6, 0)
-		health_bar_bg.BackgroundColor3 = Color3.new(0, 0, 0)
-		health_bar_bg.BorderSizePixel = 0
-		health_bar_bg.Parent = billboard
+                local billboard = Instance.new("BillboardGui")
+                billboard.Adornee = character:FindFirstChild("Head")
+                billboard.Size = UDim2.new(0, 200, 0, 100)
+                billboard.StudsOffset = Vector3.new(0, 3, 0)
+                billboard.AlwaysOnTop = true
 
-		local health_bar = Instance.new("Frame")
-		health_bar.Size = UDim2.new(1, 0, 1, 0)
-		health_bar.Position = UDim2.new(0, 0, 0, 0)
-		health_bar.BorderSizePixel = 0
-		health_bar.Parent = health_bar_bg
+                local name_label = Instance.new("TextLabel")
+                name_label.Size = UDim2.new(1, 0, 0.5, 0)
+                name_label.BackgroundTransparency = 1
+                name_label.Text = player.Name
+                name_label.TextColor3 = Color3.new(1, 1, 1)
+                name_label.TextStrokeTransparency = 0.5
+                name_label.TextScaled = true
+                name_label.Parent = billboard
 
-		local update_health = function()
-			if player.Character and player.Character:FindFirstChild("Humanoid") then
-				local humanoid = player.Character:FindFirstChild("Humanoid")
-				local health_percent = humanoid.Health / humanoid.MaxHealth
-				health_bar.Size = UDim2.new(health_percent, 0, 1, 0)
+                local health_bar_bg = Instance.new("Frame")
+                health_bar_bg.Size = UDim2.new(1, 0, 0.2, 0)
+                health_bar_bg.Position = UDim2.new(0, 0, 0.6, 0)
+                health_bar_bg.BackgroundColor3 = Color3.new(0, 0, 0)
+                health_bar_bg.BorderSizePixel = 0
+                health_bar_bg.Parent = billboard
 
-				if (health_percent > 0.75) then
-					health_bar.BackgroundColor3 = Color3.new(0, 1, 0)
-				elseif (health_percent > 0.5) then
-					health_bar.BackgroundColor3 = Color3.new(1, 1, 0)
-				elseif (health_percent > 0.25) then
-					health_bar.BackgroundColor3 = Color3.new(1, 0.5, 0)
-				else
-					health_bar.BackgroundColor3 = Color3.new(1, 0, 0)
-				end
-			end
-		end
+                local health_bar = Instance.new("Frame")
+                health_bar.Size = UDim2.new(1, 0, 1, 0)
+                health_bar.Position = UDim2.new(0, 0, 0, 0)
+                health_bar.BorderSizePixel = 0
+                health_bar.Parent = health_bar_bg
 
-		update_health()
+                local update_health = function()
+                    if character and humanoid then
+                        local health_percent = humanoid.Health / humanoid.MaxHealth
+                        health_bar.Size = UDim2.new(health_percent, 0, 1, 0)
 
-		run_service.Heartbeat:Connect(update_health)
-		obv2_objects[player] = {highlight = highlight, billboard = billboard}
-	end
+                        if health_percent > 0.75 then
+                            health_bar.BackgroundColor3 = Color3.new(0, 1, 0)
+                        elseif health_percent > 0.5 then
+                            health_bar.BackgroundColor3 = Color3.new(1, 1, 0)
+                        elseif health_percent > 0.25 then
+                            health_bar.BackgroundColor3 = Color3.new(1, 0.5, 0)
+                        else
+                            health_bar.BackgroundColor3 = Color3.new(1, 0, 0)
+                        end
+                    end
+                end
+
+                update_health()
+
+                humanoid.HealthChanged:Connect(update_health)
+                run_service.Heartbeat:Connect(update_health)
+                obv2_objects[player] = {highlight = highlight, billboard = billboard}
+            end
+        end
+    end)
+    
+    if not success then
+        ui:Notify({
+            Title = "Erreur",
+            Content = "Une erreur est survenue lors de la création de l'observation pour le joueur : " .. err,
+            Duration = 5,
+            Image = "cross"
+        })
+    end
 end
 
 local obv2_delete = function(player)
-	if (obv2_objects[player]) then
-		if (obv2_objects[player].highlight) then
-			obv2_objects[player].highlight:Destroy()
-		end
+    local success, err = pcall(function()
+        if obv2_objects[player] then
+            if obv2_objects[player].highlight then
+                obv2_objects[player].highlight:Destroy()
+            end
+            if obv2_objects[player].billboard then
+                obv2_objects[player].billboard:Destroy()
+            end
+            obv2_objects[player] = nil
+        end
+    end)
 
-		if (obv2_objects[player].billboard) then
-			obv2_objects[player].billboard:Destroy()
-		end
-
-		obv2_objects[player] = nil
-	end
+    if not success then
+        ui:Notify({
+            Title = "Erreur",
+            Content = "Une erreur est survenue lors de la suppression de l'observation pour le joueur : " .. err,
+            Duration = 5,
+            Image = "cross"
+        })
+    end
 end
 
 local main_section_obv2 = main_tab:CreateToggle({
-	name = "Observation v2",
-	current_value = false,
-	flag = "main_obv2_toggle",
+    name = "Observation v2",
+    current_value = false,
+    flag = "main_obv2_toggle",
 
-	callback = function(value)
-		ui:Notify({
-			title = "Observation v2",
-			content = value and "L'observation v2 a été activée" or "L'observation v2 a été désactivée",
-			duration = 5,
-			image = value and "check" or "cross"
-		})
+    callback = function(value)
+        ui:Notify({
+            Title = "Observation v2",
+            Content = value and "L'observation v2 a été activée" or "L'observation v2 a été désactivée",
+            Duration = 5,
+            Image = value and "check" or "cross"
+        })
 
-		if (value) then
-			for _, player in pairs(players:GetPlayers()) do
-				obv2_create(player)
-			end
+        if value then
+            for _, player in pairs(players:GetPlayers()) do
+                obv2_create(player)
+            end
 
-			players.PlayerAdded:Connect(obv2_create)
-			players.PlayerRemoving:Connect(function(player)
-				obv2_delete(player)
-			end)
-		else
-			for _, obj in pairs(obv2_objects) do
-				if (obj.highlight) then
-					obj.highlight:Destroy()
-				end
+            players.PlayerAdded:Connect(function(player)
+                obv2_create(player)
+            end)
+            players.PlayerRemoving:Connect(function(player)
+                obv2_delete(player)
+            end)
+        else
+            for _, obj in pairs(obv2_objects) do
+                if obj.highlight then
+                    obj.highlight:Destroy()
+                end
+                if obj.billboard then
+                    obj.billboard:Destroy()
+                end
+            end
 
-				if (obj.billboard) then
-					obj.billboard:Destroy()
-				end
-			end
-
-			obv2_objects = {}
-		end
-	end
+            obv2_objects = {}
+        end
+    end
 })
 
 ui:LoadConfiguration()
