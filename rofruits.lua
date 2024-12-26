@@ -2,10 +2,9 @@ local players = game:GetService("Players")
 local run_service = game:GetService("RunService")
 
 local ui = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
-
 local obv2_objects = {}
 
-window = ui:CreateWindow({
+local window = ui:CreateWindow({
 	Name = "CDark",
 	Icon = 0,
 	LoadingTitle = "CDark Hub",
@@ -76,7 +75,7 @@ local main_section_obv2 = main_tab:CreateToggle({
 			Title = "Observation v2",
 			Content = "L'observation v2 a était activé",
 			Duration = 5,
-			Image = "activated"
+			Image = "check"
 		})
 
 		if (value) then
