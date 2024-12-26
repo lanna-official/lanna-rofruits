@@ -53,14 +53,40 @@ local obv2_create = function(player)
 		highlight.OutlineTransparency = 0
 		highlight.OutlineColor = Color3.new(1, 1, 1)
 		highlight.Parent = character
+		
+		local billboard = Instance.new("BillboardGui")
+		
+		billboard.Adornee = character:FindFirstChild("Head")
+		billboard.Size = UDim2.new(0, 200, 0, 50)
+		billboard.StudsOffset = Vector3.new(0, 2, 0)
+		billboard.AlwaysOnTop = true
+		
+		local text_label = Instance.new("TextLabel")
+		
+		text_label.Size = UDim2.new(1, 0, 1, 0)
+		text_label.BackgroundTransparency = 1
+		text_label.Text = player.Name
+		text_label.TextColor3 = Color3.new(1, 1, 1)
+		text_label.TextStrokeTransparency = 0.5
+		text_label.TextScaled = true
+		text_label.Parent = billboard
+		
+		billboard.Parent = character
 
-		obv2_objects[player] = highlight
+		obv2_objects[player] = {highlight = highlight, billboard = billboard}
 	end
 end
 
 local obv2_delete = function(player)
 	if (obv2_objects[player]) then
-		obv2_objects[player]:Destroy()
+		if (obv2_objects[player].highlight) then
+			obv2_objects[player].highlight:Destroy()
+		end
+		
+		if (obv2_objects[player].billboard) then
+			obv2_objects[player].billboard:Destroy()
+		end
+		
 		obv2_objects[player] = nil
 	end
 end
@@ -73,9 +99,9 @@ local main_section_obv2 = main_tab:CreateToggle({
 	Callback = function(value)
 		ui:Notify({
 			Title = "Observation v2",
-			Content = "L'observation v2 a était activé",
+			Content = value and "L'observation v2 a été activée" or "L'observation v2 a été désactivée",
 			Duration = 5,
-			Image = "check"
+			Image = value and "check" or "cross"
 		})
 
 		if (value) then
