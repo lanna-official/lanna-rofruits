@@ -1,7 +1,6 @@
 getgenv().SecureMode = true
 
 ui = loadstring(game:HttpGet("https://raw.githubusercontent.com/UI-Interface/ArrayField/main/Source.lua"))()
-sense = loadstring(game:HttpGet("https://sirius.menu/sense"))()
 
 window = ui:CreateWindow({
 	Name = "CDark",
@@ -81,12 +80,6 @@ local main_section_obv2 = main_tab:CreateToggle({
 				}
 			}
 		})
-		
-		sense.teamSettings.enemy.enabled = true
-		sense.teamSettings.enemy.box = true
-		sense.teamSettings.boxColor[1] = Color3.fromRGB(252, 165, 255)
-		
-		sense.Load()
 	end,
 })
 
